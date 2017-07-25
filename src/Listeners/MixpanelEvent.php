@@ -26,22 +26,27 @@ class MixpanelEvent
 
     private function getProfileData($user) : array
     {
-        $firstName = $user->first_name;
-        $lastName = $user->last_name;
 
-        if ($user->name) {
+        if ($user->surname == '') {
             $nameParts = explode(' ', $user->name);
             array_filter($nameParts);
-            $lastName = array_pop($nameParts);
+
+            $lastName  = array_pop($nameParts);
             $firstName = implode(' ', $nameParts);
+        }
+        else
+        {
+            $firstName = $user->name;
+            $lastName  = $user->surname;
         }
 
         $data = [
             '$first_name' => $firstName,
-            '$last_name' => $lastName,
-            '$name' => $user->name,
-            '$email' => $user->email,
-            '$created' => ($user->created_at
+            '$last_name'  => $lastName,
+            '$name'       => $user->name,
+            '$email'      => $user->email,
+            '$team'       => $user->currentTeam()->slug,
+            '$created'    => ($user->created_at
                 ? (new Carbon)->parse($user->created_at)->format('Y-m-d\Th:i:s')
                 : null),
         ];

@@ -45,7 +45,7 @@ class MixpanelEvent
             '$last_name'  => $lastName,
             '$name'       => $user->name,
             '$email'      => $user->email,
-            '$team'       => $user->currentTeam()->slug,
+            'Team'        => $user->currentTeam() ? $user->currentTeam()->slug : '',
             '$created'    => ($user->created_at
                 ? (new Carbon)->parse($user->created_at)->format('Y-m-d\Th:i:s')
                 : null),
